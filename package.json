@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-https",
+  "version": "0.1.0",
+  "description": "A Telegram-like chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chat",
+    "telegra",
+    "server"
+  ],
+  "author": "Abdallah",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "express": "^4.17.1"
+  }
+}
