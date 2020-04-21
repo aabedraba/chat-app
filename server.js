@@ -1,3 +1,4 @@
+const config = require('./config')
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -11,5 +12,5 @@ router(app);
 
 app.use('/app', express.static('public'));
 
-app.listen(3000);
-console.log("Listening in http://localhost:3000")
+app.listen(config.port);
+console.log(`Listening in http://localhost:${config.port}`)
