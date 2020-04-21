@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 function connect(dbParams) {
-    console.log(dbParams);
     mongoose.connect(dbParams.url, {
     user: dbParams.user, 
     pass: dbParams.password,
