@@ -4,6 +4,12 @@ const bodyParser = require('body-parser');
 
 const router = require('./network/routes');
 
+const db = require('./db');
+db({
+    url: config.dbUrl,
+    user: config.dbUser, 
+    password: config.dbPassword,
+})
 
 var app = express();
 app.use(bodyParser.json());

@@ -1,29 +1,41 @@
-const mongoose = require('mongoose');
-const config = require('../../config');
 const Model = require('./model');
-
-mongoose.connect('mongodb+srv://@cluster0-auda6.gcp.mongodb.net/test', {
-    user: config.dbUser, 
-    pass: config.dbPassword,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-.then(() => console.log('DB Connected!'))
-.catch(err => console.error('DB Connection error: ', err));
 
 function addMessage(message) {
     const modeledMessage = new Model(message);
     modeledMessage.save();
 }
 
-async function getMessage() {
-    const messages = await Model.find();
+async function getMessage(filterUser) {
+    let filter = {};
+    if (filterUser != null){
+        filter = { user: filterUser }
+    }
+    const messages = await Model.find(filter);
     return messages;
+}
+
+async function updateMessage(id, message){
+    const foundMessage = await Model.findOne({
+        _id: id
+    });
+
+    foundMessage.message = message;
+
+    const newMessage = await foundMessage.save();
+    return newMessage;
+}
+
+function removeMessage(id) {
+    return Model.deleteOne({
+        _id: id
+    })
 }
 
 module.exports = {
     add: addMessage,
-    list: getMessage
+    list: getMessage,
+    updateMessage: updateMessage,
+    remove: removeMessage
     //get
     //update
     //delete

@@ -4,14 +4,14 @@ const response = require('../../network/response');
 const controller = require('./controller');
 
 router.get('/', (req, res) => {
-    controller.getMessages()
+    const filterUser = req.query.user || null;
+    controller.getMessages(filterUser)
         .then((messageList) =>{
             response.success(req, res, messageList, 200);
         })
         .catch(e => {
             response.error(req, res, "Unexpected error", 500, e);
         })
-    console.log(req.headers)
 });
 
 router.post('/', (req, res) => {
@@ -21,5 +21,24 @@ router.post('/', (req, res) => {
         })
         .catch(e => response.error(req, res, "Invalid info", 400, "Error in controller"))
 });
+
+router.patch('/', (req, res) => {
+    console.log(req.body.id)
+    controller.updateMessage(req.body.id, req.body.message)
+        .then((data) => {
+            response.success(req, res, data, 200)
+        })
+        .catch(err => {
+            response.error(req, res, 'Internal error', 500, err)
+        })
+})
+
+router.delete('/', (req, res) => {
+    controller.deleteMessage(req.body.id)
+        .then(() => {
+            response.success(req, res, `User ${req.body.id} deleted`, 200);
+        })
+        .catch(err => response.error(req, res, 'Internal error', 500, err))
+})
 
 module.exports = router;
