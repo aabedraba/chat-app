@@ -1,15 +1,15 @@
-import fetch from 'node-fetch';
+import Layout from '../components/Layout'
+import fetch from 'node-fetch'
 
 export default function Index(props) {
     return (
-        <div>
+        <Layout>
             <h1>Hello chat</h1>
             <ul>
                 {props.messages.body
                     .map(message => <li key={message.id}>{message.message}</li>)}
             </ul>
-            
-        </div>
+        </Layout>
     )
 }
 
