@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const config = {
     // Express expose port
-    port: process.env.EXPOSE_PORT,
+    port: process.env.PORT ||  process.env.EXPOSE_PORT,
     
     // Database connection details
     dbUrl: process.env.DB_URL,
