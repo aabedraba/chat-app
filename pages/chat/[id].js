@@ -1,22 +1,78 @@
 import Layout from "../../components/Layout";
 import fetch from 'node-fetch'
+import React from 'react'
 
-
-function Chat(props) {
+function Messages({ listMessage }) {
     return (
-        <Layout>
-            <div>
-                {props.data.map(
-                    message => <p key={message.user._id}>{message.message}</p>)
-                }
-            </div>
-            <style jsx>{`
-                div{
-                    text-align: center
-                }
-            `}</style>
-        </Layout>
+        listMessage.map(message =>
+            <p key={message.id}>{message.content}</p>)
     )
+}
+
+class Chat extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            messageToSend: '',
+            listMessage: props.data.map(
+                element => {
+                    return {
+                        id: element._id,
+                        content: element.message
+                    }
+                }),
+            chatId: props.chatId
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit = async event =>  {
+        event.preventDefault();
+        const message = {
+            user: '5e9ea90cfed6f3014107081c',
+            chat: this.state.chatId,
+            message: this.state.messageToSend
+        }
+        const res = await fetch('http://localhost:3001/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(message)
+        })
+        const data = await res.json();
+        const newMessage = {
+            id: data.body.id,
+            content: this.state.messageToSend
+        }
+        this.setState({listMessage: [...this.state.listMessage, newMessage]})
+        this.setState({messageToSend: ''})
+    }
+
+    handleChange = event => {
+        this.setState({messageToSend: event.target.value})
+    }
+
+    render() {
+        return (
+            <Layout>
+                <div>
+                    <Messages listMessage={this.state.listMessage} />
+                    <form onSubmit={this.handleSubmit}>
+                        <input type="text" onChange={this.handleChange} value={this.state.messageToSend}></input>
+                        <input type="submit" value="Submit"></input>
+                    </form>
+                </div>
+                <style jsx>{`
+                    div{
+                        text-align: center
+                    }
+                `}</style>
+            </Layout>
+        )
+    }
 }
 
 async function getMessages(chatId) {
@@ -31,7 +87,8 @@ Chat.getInitialProps = async function (context) {
     const chats = await res.json();
     const chatId = chats.body[0]._id;
     return {
-        data: await getMessages(chatId)
+        data: await getMessages(chatId),
+        chatId
     }
 }
 
