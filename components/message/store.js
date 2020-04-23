@@ -1,8 +1,9 @@
 const Model = require('./model');
 
-function addMessage(message) {
+async function addMessage(message) {
     const modeledMessage = new Model(message);
-    modeledMessage.save();
+    const res = await modeledMessage.save();
+    return res._id;
 }
 
 async function getMessage(filterUser, filterChat) {

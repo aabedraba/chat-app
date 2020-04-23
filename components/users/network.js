@@ -4,6 +4,7 @@ const response = require('../../network/response');
 const controller = require('./controller');
 
 router.post('/', (req, res) => {
+    console.log(req)
     controller.addUser(req.body.name)
         .then(data => {
             response.success(req, res, data, 201);

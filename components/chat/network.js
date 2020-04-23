@@ -13,8 +13,8 @@ router.post('/', (req, res) => {
         })
 })
 
-router.get('/', (req, res) => {
-    controller.listChats(req.query.userId)
+router.get('/:userId', (req, res) => {
+    controller.listChats(req.params.userId)
      .then(users => {
         response.success(req, res, users, 200);
      })

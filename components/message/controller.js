@@ -2,7 +2,7 @@ const store = require('./store');
 const socket = require('../../socket').socket;
 
 function addMessage(user, message, chat, file) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         if (!chat || !user || !message){
             console.error('[messageController] No user or message')
             reject('Incorrect data');
@@ -13,7 +13,8 @@ function addMessage(user, message, chat, file) {
         if (file){
             fileUrl = 'http://localhost:3000/app/files/' + file.filenase;
         }
-        const fullMessage = {
+
+        let fullMessage = {
             chat: chat,
             user: user,
             message: message,
@@ -21,8 +22,9 @@ function addMessage(user, message, chat, file) {
             file: fileUrl
         };
     
-        store.add(fullMessage)
-
+        const res = await store.add(fullMessage);
+        
+        fullMessage['id'] = res;
         socket.io.emit('message', fullMessage);
         resolve(fullMessage);
     })
