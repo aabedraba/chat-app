@@ -31,11 +31,11 @@ class Chat extends React.Component {
     handleSubmit = async event =>  {
         event.preventDefault();
         const message = {
-            user: '5e9ea90cfed6f3014107081c',
+            user: '5ea1984a2a72a64a1ad5e118',
             chat: this.state.chatId,
             message: this.state.messageToSend
         }
-        const res = await fetch('//https://next-chat-app-aabedraba.herokuapp.com/message', {
+        const res = await fetch('https://next-chat-app-aabedraba.herokuapp.com/message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
