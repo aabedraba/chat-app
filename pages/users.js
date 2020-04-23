@@ -23,7 +23,7 @@ function Users(props) {
 }
 
 export async function getStaticProps() {
-    const res = await fetch('http://localhost:3001/user');
+    const res = await fetch('https://next-chat-app-aabedraba.herokuapp.com/user');
     const data = await res.json();
     return {
         props: {

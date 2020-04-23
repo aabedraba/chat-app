@@ -35,7 +35,7 @@ class Chat extends React.Component {
             chat: this.state.chatId,
             message: this.state.messageToSend
         }
-        const res = await fetch('http://localhost:3001/message', {
+        const res = await fetch('//https://next-chat-app-aabedraba.herokuapp.com/message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,14 +76,14 @@ class Chat extends React.Component {
 }
 
 async function getMessages(chatId) {
-    const res = await fetch(`http://localhost:3001/message?chat=${chatId}`);
+    const res = await fetch(`https://next-chat-app-aabedraba.herokuapp.com/message?chat=${chatId}`);
     const data = await res.json();
     return data.body;
 }
 
 Chat.getInitialProps = async function (context) {
     const { id } = context.query;
-    const res = await fetch(`http://localhost:3001/chat/${id}`);
+    const res = await fetch(`https://next-chat-app-aabedraba.herokuapp.com/chat/${id}`);
     const chats = await res.json();
     const chatId = chats.body[0]._id;
     return {
