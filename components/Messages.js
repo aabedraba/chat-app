@@ -1,6 +1,3 @@
-import useSWR from 'swr'
-import { fetchMessage } from '../utils'
-
 function Messages(props) {
     return (
         <div> 

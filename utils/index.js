@@ -15,7 +15,7 @@ async function storeMessage({message, chatId, userId}) {
         chat: chatId,
         user: userId
     }
-    const res = await fetch('http://localhost:3001/message', {
+    const res = await fetch('https://next-chat-app-aabedraba.herokuapp.com/message', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
