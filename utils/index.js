@@ -1,10 +1,5 @@
-async function fetchMessage(url) {
-    return fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            const chatId = data.body[0]._id
-            return fetch(`https://next-chat-app-aabedraba.herokuapp.com/message?chat=${chatId}`)
-        })
+async function fetchMessage(chatId) {
+    return fetch(`https://next-chat-app-aabedraba.herokuapp.com/message?chat=${chatId}`)
         .then(res => res.json())
 }
 
@@ -14,8 +9,12 @@ async function getChatId(userId) {
         .then(data => data.body[0]._id)
 }
 
-async function storeMessage(messageToStore) {
-    console.log("Sending message")
+async function storeMessage({message, chatId, userId}) {
+    const messageToStore = {
+        message, 
+        chat: chatId,
+        user: userId
+    }
     const res = await fetch('http://localhost:3001/message', {
         method: 'POST',
         headers: {
