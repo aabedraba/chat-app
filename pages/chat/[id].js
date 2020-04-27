@@ -1,94 +1,36 @@
-import Layout from "../../components/Layout";
-import fetch from 'node-fetch'
-import React from 'react'
+import Layout from '../../components/Layout'
+import Messages  from '../../components/Messages'
+import { getChatId } from '../../utils'
+import { useState } from 'react'
 
-function Messages({ listMessage }) {
+function Chat(props) {
+    const userId = props.userId;
+    const chatId = props.chatId;
+    const [newMessage, setNewMesage] = useState('');
+    
+    const handleChange = (e) => {setNewMesage(e.target.value)}
+    
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        addMessage(newMessage, chatId, userId)
+        setNewMesage('')
+    }
+
     return (
-        listMessage.map(message =>
-            <p key={message.id}>{message.content}</p>)
+        <Layout >
+            <Messages userId={userId} />
+            <form onSubmit={handleSubmit}>
+                <input type="text"  onChange={handleChange} value={newMessage}></input>
+                <input type="submit" value="Submit"></input>
+            </form>
+        </Layout>
     )
 }
 
-class Chat extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            messageToSend: '',
-            listMessage: props.data.map(
-                element => {
-                    return {
-                        id: element._id,
-                        content: element.message
-                    }
-                }),
-            chatId: props.chatId
-        }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit = async event =>  {
-        event.preventDefault();
-        const message = {
-            user: '5ea1984a2a72a64a1ad5e118',
-            chat: this.state.chatId,
-            message: this.state.messageToSend
-        }
-        const res = await fetch('https://next-chat-app-aabedraba.herokuapp.com/message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(message)
-        })
-        const data = await res.json();
-        const newMessage = {
-            id: data.body.id,
-            content: this.state.messageToSend
-        }
-        this.setState({listMessage: [...this.state.listMessage, newMessage]})
-        this.setState({messageToSend: ''})
-    }
-
-    handleChange = event => {
-        this.setState({messageToSend: event.target.value})
-    }
-
-    render() {
-        return (
-            <Layout>
-                <div>
-                    <Messages listMessage={this.state.listMessage} />
-                    <form onSubmit={this.handleSubmit}>
-                        <input type="text" onChange={this.handleChange} value={this.state.messageToSend}></input>
-                        <input type="submit" value="Submit"></input>
-                    </form>
-                </div>
-                <style jsx>{`
-                    div{
-                        text-align: center
-                    }
-                `}</style>
-            </Layout>
-        )
-    }
-}
-
-async function getMessages(chatId) {
-    const res = await fetch(`https://next-chat-app-aabedraba.herokuapp.com/message?chat=${chatId}`);
-    const data = await res.json();
-    return data.body;
-}
-
-Chat.getInitialProps = async function (context) {
-    const { id } = context.query;
-    const res = await fetch(`https://next-chat-app-aabedraba.herokuapp.com/chat/${id}`);
-    const chats = await res.json();
-    const chatId = chats.body[0]._id;
+Chat.getInitialProps = async function(context) {
     return {
-        data: await getMessages(chatId),
-        chatId
+        userId: context.query.id,
+        chatId: await getChatId(context.query.id)
     }
 }
 

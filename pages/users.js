@@ -1,17 +1,28 @@
-import fetch from 'node-fetch';
 import Layout from '../components/Layout';
 import Button from '@material-ui/core/Button';
 import Link from 'next/link';
+import useSWR from 'swr'
 
-function Users(props) {
+async function fetcher (url) {
+    return fetch(url).then(res => res.json())
+}
+
+function Users() {
+    const {data, error} = useSWR('https://next-chat-app-aabedraba.herokuapp.com/user', fetcher)
+
+    if (error) return <div>Error loading</div>
+
     return (
         <Layout>
+
             <div>
-                {props.data.body.map(user =>
+                {data 
+                ? data.body.map(user =>
                     <Link href="chat/[id]" as={`/chat/${user._id}`} key={user._id}>
                         <Button variant="contained">{user.name}</Button>
-                    </Link>
-                )}
+                    </Link>)
+                : 'Loading...'
+                }
             </div>
             <style jsx>{`
                 div {
@@ -20,16 +31,6 @@ function Users(props) {
             `}</style>
         </Layout>
     )
-}
-
-export async function getStaticProps() {
-    const res = await fetch('https://next-chat-app-aabedraba.herokuapp.com/user');
-    const data = await res.json();
-    return {
-        props: {
-            data
-        }
-    }
 }
 
 export default Users;
