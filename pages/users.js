@@ -8,7 +8,7 @@ async function fetcher (url) {
 }
 
 function Users() {
-    const {data, error} = useSWR('https://next-chat-app-aabedraba.herokuapp.com/user', fetcher)
+    const {data, error} = useSWR('https://nodejs-chat-backend.herokuapp.com/user', fetcher)
 
     if (error) return <div>Error loading</div>
 
