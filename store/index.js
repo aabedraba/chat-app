@@ -24,7 +24,7 @@ function storeMessage({message, chatId, userId}) {
         chat: chatId,
         user: userId
     }
-    fetch('https://nodejs-chat-backend.herokuapp.com/message', {
+    fetch('http://localhost:3001/message', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

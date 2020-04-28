@@ -17,6 +17,7 @@
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "socket.io-client": "^2.3.0",
     "swr": "^0.2.0"
   }
 }
