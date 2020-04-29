@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import socketIOClient from "socket.io-client";
+import { socketIO } from '../lib/socket'
 
 function Messages(props) {
     const [messageList, setMessageList] = useState()
@@ -13,7 +13,7 @@ function Messages(props) {
      }, [props.messageList, props.userName])
 
     useEffect(() => {
-        const socket = socketIOClient('http://localhost:3001');
+        const socket = socketIO()
         socket.on("message", data => {
             const newMessage = {
                 id: data.id,
