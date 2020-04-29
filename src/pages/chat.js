@@ -12,29 +12,18 @@ function Chat() {
     const [userName, setUserName] = useState('')
     const [chatId, setChatId] = useState('')
     
-    useEffect(() => {
-        async function getChat(userId) {
-            setChatId(await getChatId(userId))
-        }
-
-        async function getMessages() {
-            const messageData = await fetchMessage(chatId);
-            setData(messageData.body.map(element => {
+    useEffect(() => {   
+        getUserName(userId).then(name => setUserName(name))
+        getChatId(userId).then(id => setChatId(id))
+        fetchMessage(chatId).then(res => setData(res.body.map(
+            element => {
                 return {
                     id: element._id,
                     message: element.message,
                     userName: element.user.name
                 }
-            }))
-        }
 
-        async function getName(userId) {
-            setUserName(await getUserName(userId))
-        }
-
-        getChat(userId)
-            .then(getMessages())
-            .then(getName(userId))
+            })))
 
     }, []);
 
