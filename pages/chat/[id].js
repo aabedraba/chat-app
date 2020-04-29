@@ -2,15 +2,18 @@ import Layout from '../../components/Layout'
 import Messages from '../../components/Messages'
 import Form from '../../components/Form'
 import { getChatId, fetchMessage, getUserName } from '../../store'
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-function Chat(props) {
+function Chat() {
+    const router = useRouter()
+    const userId = router.query.id
     const [data, setData] = useState([{}])
     const [userName, setUserName] = useState('')
     const [chatId, setChatId] = useState('')
-
+    
     useEffect(() => {
-        async function getChat(userId){
+        async function getChat(userId) {
             setChatId(await getChatId(userId))
         }
 
@@ -25,30 +28,22 @@ function Chat(props) {
             }))
         }
 
-        async function getName(userId){
+        async function getName(userId) {
             setUserName(await getUserName(userId))
         }
 
-        getChat(props.userId)
+        getChat(userId)
             .then(getMessages())
-            .then(getName(props.userId))
-       
-      }, []);
+            .then(getName(userId))
 
-    
-    if (!data) return 'Loading...'
+    }, []);
+
     return (
         <Layout >
-            <Messages messageList={data} userName={userName}/>
-            <Form userId={props.userId} chatId={chatId} />
+            <Messages messageList={data} userName={userName} />
+            <Form userId={userId} chatId={chatId} />
         </Layout>
     )
-}
-
-Chat.getInitialProps = async function (context) {
-    return {
-        userId: context.query.id
-    }
 }
 
 export default Chat;
