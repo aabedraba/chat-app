@@ -15,7 +15,7 @@ function Messages(props) {
             const newMessage = {
                 id: data.id,
                 message: data.message,
-                userName: 'Abdallah'
+                userName: props.userName
             }
             setMessageList((prevState) => {
                 return [...prevState, newMessage]
