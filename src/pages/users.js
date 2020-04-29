@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 function UserLinks(props) {
     return (
         props.users.map(user =>
-            <Link href={{ pathname: '/chat', query: { user: user._id } }} key={user._id} prefetch>
+            <Link href={{ pathname: '/chat', query: { user: user._id } }} key={user._id} >
                 <Button variant="contained">{user.name}</Button>
             </Link>)
     )

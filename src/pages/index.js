@@ -5,7 +5,7 @@ export default function Index() {
     return (
         <Layout>
             <div>
-                <Link href="/users" prefetch>
+                <Link href="/users" >
                     <a>Go to users page</a>
                 </Link>
             </div>
