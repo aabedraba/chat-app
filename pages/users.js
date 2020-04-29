@@ -8,7 +8,7 @@ async function fetcher (url) {
 }
 
 function Users() {
-    const {data, error} = useSWR('https://nodejs-chat-backend.herokuapp.com/user', fetcher)
+    const {data, error} = useSWR('http://localhost:3001/user', fetcher)
 
     if (error) return <div>Error loading</div>
 
@@ -18,7 +18,7 @@ function Users() {
             <div>
                 {data 
                 ? data.body.map(user =>
-                    <Link href="chat/[id]" as={`/chat/${user._id}`} key={user._id}>
+                    <Link href={{ pathname: '/chat', query: { user: user._id } }} key={user._id}>
                         <Button variant="contained">{user.name}</Button>
                     </Link>)
                 : 'Loading...'

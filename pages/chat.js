@@ -1,13 +1,13 @@
-import Layout from '../../components/Layout'
-import Messages from '../../components/Messages'
-import Form from '../../components/Form'
-import { getChatId, fetchMessage, getUserName } from '../../lib/store'
+import Layout from '../components/Layout'
+import Messages from '../components/Messages'
+import Form from '../components/Form'
+import { getChatId, fetchMessage, getUserName } from '../lib/store'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 function Chat() {
     const router = useRouter()
-    const userId = router.query.id
+    const userId = router.query.user
     const [data, setData] = useState([{}])
     const [userName, setUserName] = useState('')
     const [chatId, setChatId] = useState('')
