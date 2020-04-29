@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { storeMessage } from '../store' 
+import { storeMessage } from '../lib/store' 
 
 export default function Form(props) {
     const chatId = props.chatId

@@ -1,7 +1,7 @@
 import Layout from '../../components/Layout'
 import Messages from '../../components/Messages'
 import Form from '../../components/Form'
-import { getChatId, fetchMessage, getUserName } from '../../store'
+import { getChatId, fetchMessage, getUserName } from '../../lib/store'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
