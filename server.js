@@ -1,7 +1,7 @@
 const config = require('./config')
 const express = require('express');
 const app = express();
-//const server = require('http').Server(app);
+const server = require('http').Server(app);
 
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -19,12 +19,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-//socket.connect(server);
+socket.connect(server);
 
 router(app);
 
 app.use('/app', express.static('public'));
 
-app.listen(config.port, () => {
+server.listen(config.port, () => {
     console.log(`Listening in http://localhost:${config.port}`)
 });

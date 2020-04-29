@@ -1,7 +1,7 @@
 const store = require('./store');
-//const socket = require('../../socket').socket;
+const socket = require('../../socket').socket;
 
-function addMessage(user, message, chat, file) {
+async function addMessage(user, message, chat, file) {
     return new Promise(async (resolve, reject) => {
         if (!chat || !user || !message){
             console.error('[messageController] No user or message')
@@ -22,10 +22,9 @@ function addMessage(user, message, chat, file) {
             file: fileUrl
         };
     
-        const res = await store.add(fullMessage);
-        
-        fullMessage['id'] = res;
-        //socket.io.emit('message', fullMessage);
+        const messageId = await store.add(fullMessage);
+        fullMessage['id'] = await messageId
+        socket.io.emit('message', fullMessage);
         resolve(fullMessage);
     })
 }
