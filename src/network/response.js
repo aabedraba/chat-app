@@ -1,4 +1,4 @@
-const statusMessage = {
+const statusMessages = {
     '200': 'Ok',
     '201': 'Created',
     '400': 'Invalid format',

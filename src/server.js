@@ -1,4 +1,4 @@
-const config = require('./config')
+const config = require('../config')
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
@@ -23,7 +23,7 @@ socket.connect(server);
 
 router(app);
 
-app.use('/app', express.static('public'));
+app.use('/app', express.static('../public'));
 
 server.listen(config.port, () => {
     console.log(`Listening in http://localhost:${config.port}`)
