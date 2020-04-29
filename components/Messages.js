@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import socketIOClient from "socket.io-client";
-
 
 function Messages(props) {
     const [messageList, setMessageList] = useState()
+    const [userName, setUserName] = useState('')
+    const prevRef = useRef();
 
     useEffect(() => {
         setMessageList(props.messageList)
-     }, [props.messageList])
+        setUserName(props.userName)
+        prevRef.current = userName
+     }, [props.messageList, props.userName])
 
     useEffect(() => {
         const socket = socketIOClient('http://localhost:3001');
@@ -15,7 +18,7 @@ function Messages(props) {
             const newMessage = {
                 id: data.id,
                 message: data.message,
-                userName: props.userName
+                userName: prevRef.current
             }
             setMessageList((prevState) => {
                 return [...prevState, newMessage]
