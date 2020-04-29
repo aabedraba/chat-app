@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-unfetch'
-
 async function fetchMessage(chatId) {
     return fetch(`https://nodejs-chat-backend.herokuapp.com/message?chat=${chatId}`)
         .then(res => res.json())
