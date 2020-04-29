@@ -3,7 +3,11 @@ import socketIOClient from "socket.io-client";
 
 
 function Messages(props) {
-    const [messageList, setMessageList] = useState(props.messageList)
+    const [messageList, setMessageList] = useState()
+
+    useEffect(() => {
+        setMessageList(props.messageList)
+     }, [props.messageList])
 
     useEffect(() => {
         const socket = socketIOClient('http://localhost:3001');
@@ -11,17 +15,22 @@ function Messages(props) {
             const newMessage = {
                 id: data.id,
                 message: data.message,
-                userName: props.userName
+                userName: 'Abdallah'
             }
-            setMessageList(() => [...messageList, newMessage]);
+            setMessageList((prevState) => {
+                return [...prevState, newMessage]
+            });
         });
     }, []);
 
     return (
         <div>
-            {messageList.map(
-                message =>
-                    <p key={message.id}>{message.userName}: {message.message}</p>
+            {messageList?.map(
+                message => {
+                    return (
+                        <p key={message.id}>{message.userName}: {message.message}</p>
+                    )
+                }
             )}
             <style jsx>{`
                 p {
