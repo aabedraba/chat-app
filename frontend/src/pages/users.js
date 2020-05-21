@@ -22,7 +22,12 @@ function Users() {
     return (
         <Layout>
             <div>
-                <UserLinks users={users} />
+                {
+                    users?.body ? 
+                        'Loading...' 
+                        : <UserLinks users={users} />
+                }
+                
             </div>
             <style jsx>{`
                 div {
